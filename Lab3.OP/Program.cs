@@ -159,7 +159,7 @@ namespace Lab2_OP
                         isWork = FourthCase();
                         break;
                     default:
-                        Console.WriteLine("Неверный ввод");
+                        Console.WriteLine("Неправильный ввод");
                         break;
                 }
             }
