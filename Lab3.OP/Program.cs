@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -67,8 +69,10 @@ namespace Lab2_OP
         }
         static void OutputArray(int[] a)
         {
+            Console.WriteLine("Массив");
             foreach (int i in a)
                 Console.Write("{0} ", i);
+            Console.WriteLine();
         }
         static int[] CreatingArray(int N)
         {
@@ -80,10 +84,56 @@ namespace Lab2_OP
             }
             return a;
         }
-        static int GnomeSort(int a)
+        static int[] CloneArray(int[] a)
         {
-
-            return 0;
+            int[] b = new int[a.Length];
+            for (int i = 0;i < a.Length; i++)
+            {
+                b[i] = a[i];
+            }
+            return b;
+        }
+        static void InsertsSort(int[] a)
+        {
+            int index;
+            int curNumber;
+            for (int i = 0;i < a.Length; i++)
+            {
+                index = i;
+                curNumber = a[i];
+                while (index > 0 && curNumber < a[index - 1])
+                {
+                    a[index] = a[index - 1];
+                    index--;
+                }
+                a[index] = curNumber;
+            }
+        }
+        static void GnomeSort(int[] a)
+        {
+            int index = 1;
+            int lastIndex = index + 1;
+            int swap;
+            while (index < a.Length)
+            {
+                if (a[index - 1] < a[index])
+                {
+                    index = lastIndex;
+                    lastIndex++;
+                }
+                else
+                {
+                    swap = a[index - 1];
+                    a[index - 1] = a[index];
+                    a[index] = swap;
+                    index--;
+                    if (index == 0)
+                    {
+                        index = lastIndex;
+                        lastIndex++;
+                    }
+                }
+            }
         }
         static void FirstCase()
         {
@@ -109,8 +159,19 @@ namespace Lab2_OP
         }
         static void ThirdCase()
         {
-            int[] a =CreatingArray(LenghtArray());
+            int[] a = CreatingArray(LenghtArray());
+            int[] b = CloneArray(a);
             OutputArray(a);
+            Console.WriteLine("Гномья сортировка:");
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            GnomeSort(a);
+            Console.WriteLine(stopwatch.Elapsed.ToString());
+            OutputArray(a);
+            Console.WriteLine("Сортировка вставками");
+            Stopwatch stopwatch2 = Stopwatch.StartNew();
+            InsertsSort(b);
+            Console.WriteLine(stopwatch.Elapsed.ToString());
+            OutputArray(b);
         }
         static bool FourthCase()
         {
@@ -138,8 +199,7 @@ namespace Lab2_OP
             string input;
             while (isWork)
             {
-                Console.WriteLine();
-                Console.WriteLine("1. Отгадай ответ");
+                Console.WriteLine("\n1. Отгадай ответ");
                 Console.WriteLine("2. Об авторе");
                 Console.WriteLine("3. Сортировка массивов");
                 Console.WriteLine("4. Выход");
